@@ -1,39 +1,88 @@
-"""
-A program to assess the quality of a given dataset.
-Quality refers to bias, fairness, and accuracy of the dataset.
-This is aimed at datasets that are used for training machine learning models.
-"""
-
 import pandas as pd
-import numpy as np
 import matplotlib.pyplot as plt
-import seaborn as sns
-from sklearn.metrics import confusion_matrix
-from sklearn.metrics import classification_report
+from bias_reduction import apply_bias_reduction
 
-# Load the dataset
-def load_dataset(file_path):
+def load_sample_data():
     """
-    Load the dataset from a given file path.
+    This is just a sample dataset I generated via AI LLM models.
     """
-    dataset = pd.read_csv(file_path)
-    return dataset
+    data = {
+        'case_duration': [87, 132, 45, 98, 156, 76, 110, 65, 143, 89],
+        'defendant_age': [38, 29, 42, 33, 50, 27, 36, 45, 31, 40],
+        'judge_experience': [12, 8, 20, 15, 25, 5, 18, 22, 10, 16],
+        'case_complexity': ['Medium', 'High', 'Low', 'Medium', 'High', 'Low', 'Medium', 'Low', 'High', 'Medium'],
+        'defendant_income': [56234, 78901, 45678, 67890, 89012, 34567, 78901, 56789, 90123, 67890],
+        'prior_convictions': [1, 0, 2, 1, 3, 0, 2, 1, 0, 2],
+        'legal_representation': ['Yes', 'Yes', 'No', 'Yes', 'Yes', 'No', 'Yes', 'Yes', 'Yes', 'No'],
+        'gender': ['Male', 'Female', 'Male', 'Female', 'Male', 'Female', 'Male', 'Female', 'Male', 'Female'],
+        'race': ['White', 'Black', 'Hispanic', 'White', 'Asian', 'White', 'Black', 'Hispanic', 'White', 'Asian'],
+        'verdict': ['Guilty', 'Not Guilty', 'Guilty', 'Not Guilty', 'Guilty', 'Not Guilty', 'Guilty', 'Not Guilty', 'Guilty', 'Not Guilty'],
+        'case_year': [2018, 2020, 2019, 2021, 2017, 2022, 2018, 2020, 2019, 2021],
+        'case_description_length': [200, 350, 150, 250, 400, 180, 300, 220, 380, 270]
+    }
+    return pd.DataFrame(data)
+
+def analyze_results(df_original, df_processed):
+    """
+    Perform some basic analysis on the original and processed datasets.
+    """
+    print("\nOriginal Dataset:")
+    print(df_original.describe())
+    print("\nProcessed Dataset:")
+    print(df_processed.describe())
+
+    # Compare class distribution before and after
+    plt.figure(figsize=(10, 5))
+    plt.subplot(1, 2, 1)
+    df_original['verdict'].value_counts().plot(kind='bar')
+    plt.title('Original Class Distribution')
+    plt.subplot(1, 2, 2)
+    df_processed['verdict'].value_counts().plot(kind='bar')
+    plt.title('Processed Class Distribution')
+    plt.tight_layout()
+    plt.show()
 
 def main():
-    # Load the dataset
-    dataset = load_dataset("data/german_credit_data.csv")
-    print(dataset.head())
+    # Load sample data
+    df = load_sample_data()
+    print("Sample data loaded:")
+    print(df.head())
 
-    # Check for missing values
-    missing_values = dataset.isnull().sum()
-    print(missing_values)
+    # Define configuration for bias reduction
+    config = {
+        'class_imbalance': {
+            'target_column': 'verdict',
+            'categorical_columns': ['case_complexity', 'legal_representation', 'gender', 'race']
+        },
+        'feature_bias': {
+            'target_column': 'verdict',
+            'n_features': 5
+        },
+        'temporal_bias': {
+            'year_column': 'case_year',
+            'value_column': 'defendant_income'
+        },
+        'label_bias': {
+            'label_columns': ['verdict']  # In this sample, we only have one label column
+        },
+        'popularity_bias': {
+            'item_column': 'judge_experience'  # Using judge_experience as a proxy for judge_id
+        },
+        'length_bias': {
+            'duration_column': 'case_duration',
+            'length_column': 'case_description_length'
+        },
+        'outlier_bias': {
+            'columns_to_check': ['case_duration', 'defendant_age', 'judge_experience', 'defendant_income'],
+            'contamination': 0.1
+        }
+    }
 
-    # Check for duplicates
-    duplicates = dataset.duplicated().sum()
-    print(duplicates)
+    # Apply bias reduction techniques
+    df_processed = apply_bias_reduction(df, config)
 
-    # Check for bias
-    bias = dataset["Risk"].value_counts()
-    print(bias)
+    # Analyze results
+    analyze_results(df, df_processed)
 
-    # Check
+if __name__ == "__main__":
+    main()

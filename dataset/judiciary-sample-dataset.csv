@@ -1,0 +1,21 @@
+case_id,case_duration,defendant_age,judge_experience,case_complexity,defendant_income,prior_convictions,legal_representation,gender,race,verdict,case_year
+1,87.23,38,12,Medium,56234.21,1,Yes,Male,White,Guilty,2018
+2,132.56,29,8,High,78901.45,0,Yes,Female,Black,Not Guilty,2020
+3,45.78,42,20,Low,45678.90,2,No,Male,Hispanic,Guilty,2019
+4,98.34,33,15,Medium,67890.12,1,Yes,Female,White,Not Guilty,2021
+5,156.89,50,25,High,89012.34,3,Yes,Male,Asian,Guilty,2017
+6,76.54,27,5,Low,34567.89,0,No,Female,White,Not Guilty,2022
+7,110.23,36,18,Medium,78901.23,2,Yes,Male,Black,Guilty,2018
+8,65.43,45,22,Low,56789.01,1,Yes,Female,Hispanic,Not Guilty,2020
+9,143.21,31,10,High,90123.45,0,Yes,Male,White,Guilty,2019
+10,89.76,40,16,Medium,67890.12,2,No,Female,Asian,Not Guilty,2021
+11,120.45,34,14,High,78901.23,1,Yes,Male,White,Guilty,2017
+12,54.32,48,23,Low,45678.90,3,Yes,Female,Black,Not Guilty,2022
+13,98.76,29,7,Medium,56789.01,0,No,Male,Hispanic,Guilty,2018
+14,167.89,39,19,High,89012.34,2,Yes,Female,White,Not Guilty,2020
+15,76.54,43,21,Low,67890.12,1,Yes,Male,Asian,Guilty,2019
+16,109.87,32,11,Medium,78901.45,0,Yes,Female,White,Not Guilty,2021
+17,87.65,37,17,High,56234.21,2,No,Male,Black,Guilty,2017
+18,132.10,46,24,Medium,90123.45,1,Yes,Female,Hispanic,Not Guilty,2022
+19,65.43,30,9,Low,45678.90,0,Yes,Male,White,Guilty,2018
+20,143.21,41,13,High,78901.23,3,Yes,Female,Asian,Not Guilty,2020
